@@ -215,19 +215,8 @@ select {
   .rosters { grid-template-columns: 1fr 1fr; }
   .versus { grid-template-columns: 1fr 1fr; }
   .vs { display: none; }
-  .actions { grid-template-columns: 1fr 1fr 1fr; }
+  .actions { grid-template-columns: 1fr 1fr; }
   .sb-pts { font-size: 2.8rem; }
   .sb-name { font-size: 1rem; }
 }
 
-/* Print */
-@media print {
-  body { background: #fff; }
-  .no-print, .icon-btn { display: none !important; }
-  .scoreboard { position: static; box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .card { box-shadow: none; border: 1px solid #bbb; break-inside: avoid; }
-  .r-row { grid-template-columns: 24px 1fr; }
-  input { border-color: #bbb !important; }
-  .cell.win, .cell.tie, .chip { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  main { max-width: none; padding: 0; }
-}

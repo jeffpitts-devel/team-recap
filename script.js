@@ -352,7 +352,6 @@
     var a = t.dataset.act, i = +t.dataset.i;
     if (a === 'up') move(i, -1);
     else if (a === 'down') move(i, 1);
-    else if (a === 'print') window.print();
     else if (a === 'reset') resetMatch();
     else if (a === 'save') saveMatch();
     else if (a === 'load') loadMatch();
