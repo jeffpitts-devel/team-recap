@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14233a">
+  <title>Bowling League Recap</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="scoreboard" aria-live="polite">
+    <div class="sb-team" id="sbMy">
+      <span class="sb-name" data-team-name="my">My Team</span>
+      <span class="sb-pts" id="ptsMy">0.0</span>
+    </div>
+    <div class="sb-mid">of 28.0</div>
+    <div class="sb-team" id="sbOpp">
+      <span class="sb-name" data-team-name="opp">Opponent</span>
+      <span class="sb-pts" id="ptsOpp">0.0</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Match Setup</h2>
+      <div class="setup">
+        <label class="f">Date Bowled
+          <input type="date" id="matchDate" data-field="date">
+        </label>
+        <label class="f">My Team Name
+          <input type="text" id="myTeam" data-field="myTeam" placeholder="My Team">
+        </label>
+        <label class="f">Opponent Team Name
+          <input type="text" id="oppTeam" data-field="oppTeam" placeholder="Opponent">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>My Team Roster</h2>
+      <div id="myRoster"></div>
+    </section>
+
+    <section class="card">
+      <h2>Opponent Roster</h2>
+      <div id="oppRoster"></div>
+    </section>
+
+    <div id="matchups"></div>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Team Totals</h2>
+        <span class="chip" id="teamPtsChip">0.0 – 0.0</span>
+      </div>
+      <div class="tt" id="totalsGrid"></div>
+    </section>
+
+    <div class="actions no-print">
+      <button type="button" class="btn primary" data-act="print">Print / Save Recap</button>
+      <button type="button" class="btn danger" data-act="reset">New Match / Clear Scores</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
