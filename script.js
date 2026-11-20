@@ -119,6 +119,12 @@
     calc();
   }
 
+  /* ---------- Handicap from average ---------- */
+  function calcHdcp(avg) {
+    var a = num(avg);
+    return a == null ? '' : String(Math.max(0, Math.floor((230 - a) * 0.8)));
+  }
+
   /* ---------- Absent handling ---------- */
   function applyAbsent(b) {
     if (!b.absent) return;
@@ -319,7 +325,13 @@
     else {
       var team = t.dataset.team, b = state[team][+t.dataset.i];
       if (f === 'name') b.name = t.value;
-      else if (f === 'avg' || f === 'hdcp') b[f] = t.value;
+      else if (f === 'avg' || f === 'hdcp') {
+        b[f] = t.value;
+        if (f === 'avg') {
+          b.hdcp = calcHdcp(t.value);
+          el(team, +t.dataset.i, 'hdcp').value = b.hdcp;
+        }
+      }
       else if (f === 'absent') b.absent = t.checked;
       else if (f.charAt(0) === 'g') b.g[+f.charAt(1)] = t.value;
       if (f === 'avg' || f === 'absent') applyAbsent(b);
