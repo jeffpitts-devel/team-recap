@@ -134,7 +134,11 @@ input:focus { outline: 3px solid rgba(31, 95, 191, .35); border-color: var(--me)
 .vs { text-align: center; font-weight: 800; color: var(--muted); }
 .bowler { border: 1px solid var(--line); border-left: 5px solid var(--me); border-radius: 12px; padding: 10px; }
 .bowler.opp { border-left-color: var(--opp); }
-.b-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.b-name { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
+.b-name .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.hd-diff { flex: none; padding: 2px 10px; border-radius: 999px; font-size: .8rem; font-weight: 700; background: #eceff3; color: var(--muted); }
+.hd-diff.pos { background: var(--win); color: #1b6b3f; }
+.hd-diff.neg { background: #fbe3df; color: var(--opp); }
 
 .fields { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: end; }
 .abs {

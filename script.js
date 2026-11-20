@@ -79,7 +79,7 @@
       return '<div class="cell" data-cell="' + team + '-' + i + '-' + key + '"><span>' + label + '</span><b>–</b></div>';
     };
     return '<div class="bowler ' + team + '">' +
-      '<div class="b-name" data-name="' + team + '-' + i + '"></div>' +
+      '<div class="b-name"><span class="nm" data-name="' + team + '-' + i + '"></span><span class="hd-diff" data-diff="' + team + '-' + i + '"></span></div>' +
       '<div class="fields">' +
         '<label class="f">AVG<input type="number" inputmode="numeric" pattern="[0-9]*" ' + attrs + ' data-field="avg" value="' + esc(b.avg) + '"></label>' +
         '<label class="f">HDCP<input type="number" inputmode="numeric" pattern="[0-9]*" ' + attrs + ' data-field="hdcp" value="' + esc(b.hdcp) + '"></label>' +
@@ -158,6 +158,10 @@
     return { hg: hg, ss: ss, hs: full ? ss + 3 * h : null };
   }
 
+  function fmtDiff(v) {
+    return v > 0 ? '+' + v : v < 0 ? '\u2212' + Math.abs(v) : '0';
+  }
+
   function setCell(id, val, mark) {
     var c = $('[data-cell="' + id + '"]');
     if (!c) return;
@@ -183,6 +187,14 @@
       var a = state.my[i], b = state.opp[i];
       $('[data-name="my-' + i + '"]').textContent = a.name.trim() || ('Bowler ' + (i + 1));
       $('[data-name="opp-' + i + '"]').textContent = b.name.trim() || ('Opponent ' + (i + 1));
+
+      var dh = Math.round(((num(a.hdcp) || 0) - (num(b.hdcp) || 0)) * 10) / 10;
+      [['my', dh], ['opp', -dh]].forEach(function (p) {
+        var d = $('[data-diff="' + p[0] + '-' + i + '"]');
+        d.textContent = 'HDCP ' + fmtDiff(p[1]);
+        d.classList.toggle('pos', p[1] > 0);
+        d.classList.toggle('neg', p[1] < 0);
+      });
 
       var A = bowlerCalc(a), B = bowlerCalc(b);
       var ia = 0, ib = 0;
