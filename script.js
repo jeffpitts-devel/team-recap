@@ -233,6 +233,69 @@
     $('#sbOpp').classList.toggle('lead', oppPts > myPts);
   }
 
+  /* ---------- Saved matches (by date) ---------- */
+  var MKEY = 'bowlRecap.matches.v1';
+
+  function getMatches() {
+    try { return JSON.parse(localStorage.getItem(MKEY)) || {}; } catch (e) { return {}; }
+  }
+
+  function putMatches(m) {
+    try { localStorage.setItem(MKEY, JSON.stringify(m)); return true; } catch (e) { return false; }
+  }
+
+  function norm(b) {
+    var r = blank(b.name);
+    r.avg = b.avg == null ? '' : b.avg;
+    r.hdcp = b.hdcp == null ? '' : b.hdcp;
+    r.absent = !!b.absent;
+    r.g = [0, 1, 2].map(function (k) { return b.g && b.g[k] != null ? b.g[k] : ''; });
+    return r;
+  }
+
+  function renderSaved(selected) {
+    var m = getMatches();
+    var keys = Object.keys(m).sort().reverse();
+    var sel = $('#savedList');
+    sel.innerHTML = keys.length ? keys.map(function (k) {
+      var d = new Date(k + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+      var opp = m[k].oppTeam ? ' – vs ' + m[k].oppTeam : '';
+      return '<option value="' + esc(k) + '">' + esc(d + opp) + '</option>';
+    }).join('') : '<option value="">No saved matches</option>';
+    if (selected && m[selected]) sel.value = selected;
+  }
+
+  function saveMatch() {
+    if (!state.date) { window.alert('Enter a Date Bowled first.'); return; }
+    var m = getMatches();
+    if (m[state.date] && !window.confirm('A match for ' + state.date + ' is already saved. Overwrite it?')) return;
+    m[state.date] = JSON.parse(JSON.stringify({ myTeam: state.myTeam, oppTeam: state.oppTeam, my: state.my, opp: state.opp }));
+    if (!putMatches(m)) { window.alert('Could not save on this device.'); return; }
+    renderSaved(state.date);
+  }
+
+  function loadMatch() {
+    var k = $('#savedList').value;
+    var s = getMatches()[k];
+    if (!s) return;
+    state.date = k;
+    state.myTeam = s.myTeam || '';
+    state.oppTeam = s.oppTeam || '';
+    state.my = s.my.map(norm);
+    state.opp = s.opp.map(norm);
+    setHeader();
+    renderAll();
+  }
+
+  function deleteMatch() {
+    var k = $('#savedList').value;
+    var m = getMatches();
+    if (!m[k] || !window.confirm('Delete the saved match for ' + k + '?')) return;
+    delete m[k];
+    putMatches(m);
+    renderSaved();
+  }
+
   /* ---------- Events ---------- */
   function handle(e) {
     var t = e.target, f = t.dataset && t.dataset.field;
@@ -291,10 +354,14 @@
     else if (a === 'down') move(i, 1);
     else if (a === 'print') window.print();
     else if (a === 'reset') resetMatch();
+    else if (a === 'save') saveMatch();
+    else if (a === 'load') loadMatch();
+    else if (a === 'delete') deleteMatch();
   });
 
   /* ---------- Init ---------- */
   load();
   setHeader();
   renderAll();
+  renderSaved(state.date);
 })();

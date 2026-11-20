@@ -191,6 +191,21 @@ label.f.locked input { background: #e6e9ed; color: #8a96a3; }
 }
 .btn.primary { background: var(--me); color: #fff; }
 .btn.danger { background: #fff; color: var(--opp); border-color: var(--opp); }
+.btn.secondary { background: #fff; color: var(--me); border-color: var(--me); }
+
+select {
+  width: 100%;
+  height: 52px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 18px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.saved-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+.saved-btns .btn { height: 52px; font-size: 1rem; }
 .btn:active { filter: brightness(.92); }
 
 /* Tablet and up */
@@ -200,7 +215,7 @@ label.f.locked input { background: #e6e9ed; color: #8a96a3; }
   .rosters { grid-template-columns: 1fr 1fr; }
   .versus { grid-template-columns: 1fr 1fr; }
   .vs { display: none; }
-  .actions { grid-template-columns: 1fr 1fr; }
+  .actions { grid-template-columns: 1fr 1fr 1fr; }
   .sb-pts { font-size: 2.8rem; }
   .sb-name { font-size: 1rem; }
 }
