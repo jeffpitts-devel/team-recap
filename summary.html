@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14233a">
+  <title>Match Summary</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="summary.css">
+</head>
+<body>
+  <header class="scoreboard" aria-live="polite">
+    <div class="sb-team" id="sbMy">
+      <span class="sb-name" id="sbMyName">My Team</span>
+      <span class="sb-pts" id="ptsMy">0.0</span>
+    </div>
+    <div class="sb-mid">of 28.0</div>
+    <div class="sb-team" id="sbOpp">
+      <span class="sb-name" id="sbOppName">Opponent</span>
+      <span class="sb-pts" id="ptsOpp">0.0</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Match Summary</h2>
+      <select id="source" aria-label="Match to summarize"></select>
+      <p class="meta" id="meta"></p>
+      <a class="btn secondary" href="index.html">&larr; Back to Scoring</a>
+    </section>
+
+    <div id="sheets"></div>
+    <p class="legend" id="legend">Circled = won that game or series (handicap included).</p>
+  </main>
+
+  <script src="summary.js"></script>
+</body>
+</html>

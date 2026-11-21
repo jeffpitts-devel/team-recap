@@ -1,0 +1,89 @@
+.meta { margin: 10px 0; color: var(--muted); font-size: .9rem; }
+.legend { text-align: center; color: var(--muted); font-size: .8rem; margin: 0 0 8px; }
+.empty { text-align: center; color: var(--muted); padding: 24px 12px; }
+
+/* Score sheet */
+.sheet {
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.sheet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--ink);
+  font-weight: 800;
+}
+.sheet-head b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sheet-head span { flex: none; font-size: .75rem; font-weight: 700; color: var(--muted); }
+
+table.score {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: .85rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.score th {
+  padding: 4px 2px;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: #f4f6f9;
+  border: 1px solid #9aa6b3;
+}
+.score td { padding: 5px 2px; height: 30px; border: 1px solid #9aa6b3; }
+.score th.nm, .score td.nm { text-align: left; padding-left: 6px; }
+.score td.nm { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.score td.nm small { display: block; font-size: .62rem; font-weight: 700; color: var(--opp); }
+
+.score tr.l1 td { border-top: 2px solid #5d6b7a; }
+.score tr.l2 td { border-top: 1px dashed #c3ccd6; }
+.score td.sub, .score td.h3 { font-size: .75rem; color: var(--muted); }
+.score tr.l2 td.tot { font-weight: 800; }
+
+.score tr.trow td { background: #f4f6f9; font-weight: 700; }
+.score tr.trow:first-of-type td, .score tr.l1 + tr.l2 + tr.trow td { border-top: 2px solid #5d6b7a; }
+.score tr.strong td { font-weight: 800; }
+.score td.lbl { text-align: left; padding-left: 8px; font-size: .75rem; color: var(--muted); }
+
+.circ {
+  display: inline-block;
+  padding: 0 3px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  line-height: 1.25;
+}
+.box {
+  display: inline-block;
+  min-width: 1.8em;
+  padding: 1px 4px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.wl {
+  display: flex;
+  gap: 24px;
+  padding: 8px 12px;
+  border-top: 2px solid var(--ink);
+  font-weight: 700;
+}
+.wl b { font-size: 1.2rem; margin-left: 4px; }
+
+@media (max-width: 380px) {
+  table.score { font-size: .76rem; }
+}
+
+@media (min-width: 720px) {
+  table.score { font-size: 1rem; }
+  .score td { height: 36px; }
+}

@@ -2,6 +2,7 @@
   'use strict';
 
   var KEY = 'bowlRecap.v1';
+  var CKEY = 'bowlRecap.current.v1';
   var NAMES = ['Tracy', 'Ingrid', 'Jeff', 'Mark'];
   var GAME_LABELS = ['Game 1', 'Game 2', 'Game 3', 'Series'];
 
@@ -46,6 +47,26 @@
         myTeam: state.myTeam,
         roster: state.my.map(function (b) { return { name: b.name, avg: b.avg, hdcp: b.hdcp }; })
       }));
+    } catch (e) { /* ignore */ }
+  }
+
+  function saveCurrent() {
+    try {
+      localStorage.setItem(CKEY, JSON.stringify({
+        date: state.date, myTeam: state.myTeam, oppTeam: state.oppTeam, my: state.my, opp: state.opp
+      }));
+    } catch (e) { /* ignore */ }
+  }
+
+  function loadCurrent() {
+    try {
+      var c = JSON.parse(localStorage.getItem(CKEY));
+      if (!c || !Array.isArray(c.my) || c.my.length !== 4 || !Array.isArray(c.opp) || c.opp.length !== 4) return;
+      state.date = c.date || state.date;
+      state.myTeam = c.myTeam || '';
+      state.oppTeam = c.oppTeam || '';
+      state.my = c.my.map(norm);
+      state.opp = c.opp.map(norm);
     } catch (e) { /* ignore */ }
   }
 
@@ -249,6 +270,7 @@
     $('#ptsOpp').textContent = oppPts.toFixed(1);
     $('#sbMy').classList.toggle('lead', myPts > oppPts);
     $('#sbOpp').classList.toggle('lead', oppPts > myPts);
+    saveCurrent();
   }
 
   /* ---------- Saved matches (by date) ---------- */
@@ -319,7 +341,7 @@
     var t = e.target, f = t.dataset && t.dataset.field;
     if (!f) return;
 
-    if (f === 'date') { state.date = t.value; return; }
+    if (f === 'date') { state.date = t.value; saveCurrent(); return; }
     if (f === 'myTeam') { state.myTeam = t.value; save(); }
     else if (f === 'oppTeam') { state.oppTeam = t.value; }
     else {
@@ -384,6 +406,7 @@
 
   /* ---------- Init ---------- */
   load();
+  loadCurrent();
   setHeader();
   renderAll();
   renderSaved(state.date);
