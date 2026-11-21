@@ -211,6 +211,7 @@ select {
 }
 .saved-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
 .saved-btns .btn { height: 52px; font-size: 1rem; }
+.saved-btns.io { grid-template-columns: 1fr 1fr; }
 .btn:active { filter: brightness(.92); }
 
 /* Tablet and up */

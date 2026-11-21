@@ -336,6 +336,50 @@
     renderSaved();
   }
 
+  function exportMatches() {
+    var m = getMatches();
+    if (!Object.keys(m).length) { window.alert('No saved matches to export.'); return; }
+    var blob = new Blob([JSON.stringify({ app: 'bowlRecap', matches: m }, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'bowling-matches-' + today() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  function importMatches(file) {
+    var rd = new FileReader();
+    rd.onload = function () {
+      var inc = null;
+      try { var d = JSON.parse(rd.result); inc = d && d.matches ? d.matches : d; } catch (e) { /* invalid */ }
+      if (!inc || typeof inc !== 'object') { window.alert('That file is not a valid matches export.'); return; }
+
+      var keys = Object.keys(inc).filter(function (k) {
+        var s = inc[k];
+        return /^\d{4}-\d{2}-\d{2}$/.test(k) && s && Array.isArray(s.my) && Array.isArray(s.opp) && s.my.length === 4 && s.opp.length === 4;
+      });
+      if (!keys.length) { window.alert('No valid matches found in that file.'); return; }
+
+      var m = getMatches();
+      var clash = keys.filter(function (k) { return m[k]; }).length;
+      var overwrite = true;
+      if (clash) overwrite = window.confirm(clash + ' imported match(es) share a date with saved ones.\n\nOK = overwrite them\nCancel = keep the saved ones');
+
+      var added = 0;
+      keys.forEach(function (k) {
+        if (m[k] && !overwrite) return;
+        m[k] = { myTeam: inc[k].myTeam || '', oppTeam: inc[k].oppTeam || '', my: inc[k].my.map(norm), opp: inc[k].opp.map(norm) };
+        added++;
+      });
+      if (!putMatches(m)) { window.alert('Could not save on this device.'); return; }
+      renderSaved();
+      window.alert('Imported ' + added + ' match(es).');
+    };
+    rd.readAsText(file);
+  }
+
   /* ---------- Events ---------- */
   function handle(e) {
     var t = e.target, f = t.dataset && t.dataset.field;
@@ -402,6 +446,13 @@
     else if (a === 'save') saveMatch();
     else if (a === 'load') loadMatch();
     else if (a === 'delete') deleteMatch();
+    else if (a === 'export') exportMatches();
+    else if (a === 'import') $('#importFile').click();
+  });
+
+  $('#importFile').addEventListener('change', function () {
+    if (this.files[0]) importMatches(this.files[0]);
+    this.value = '';
   });
 
   /* ---------- Init ---------- */
